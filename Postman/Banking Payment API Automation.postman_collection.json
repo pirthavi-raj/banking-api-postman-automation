@@ -1,0 +1,704 @@
+{
+  "info": {
+    "_postman_id": "4badc6f2-ed15-4ed8-8745-5165a349a6ab",
+    "name": "Banking Payment API Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49977316",
+    "_collection_link": "https://go.postman.co/collection/49977316-4badc6f2-ed15-4ed8-8745-5165a349a6ab?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Account Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Response contains user ID\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Account ID exists\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Account ID is correct\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.id).to.eql(1);\r\n});\r\n\r\npm.test(\"Account name exists\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.name).to.not.be.empty;\r\n});\r\n\r\npm.test(\"Username is not empty\", function(){\r\n  pm.expect(response.name).to.be.a(\"string\");\r\n  pm.expect(response.name).to.not.be.empty;\r\n});\r\n\r\npm.test(\"Email property exists\", function(){\r\n   pm.expect(response).to.have.property(\"email\");\r\n});\r\n\r\n\r\npm.test(\"Response contains all required fields\", function(){\r\n   pm.expect(response).to.have.property(\"id\");\r\n   pm.expect(response).to.have.property(\"name\");\r\n   pm.expect(response).to.have.property(\"email\");\r\n});\r\n\r\npm.test(\"Email has a valid basic format\", function(){\r\n  pm.expect(response.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r\n});\r\n\r\nconsole.log(\"Account response:\", response);\r\n\r\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response time is acceptable\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/999999",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Update name is correct\", function () {\r\n    pm.response.to.have.jsonBody('name', 'Pirthavi Raj');\r\n});\r\n\r\npm.test(\"Update email is correct\", function () {\r\n    pm.response.to.have.jsonBody('email', 'pirthavi@gmail.com');\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pirthavi Raj\",\r\n    \"email\": \"pirthavi@gmail.com\",\r\n    \"phone\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Account Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Status code is 200\", function () { \r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Email was updated\", function (){\r\n    pm.response.to.have.jsonBody('email', 'pirthaviraj@yahoo.com');\r\n});\r\n\r\npm.test(\"Email is empty\", function () {\r\n    pm.expect(response.email).to.eql(\"\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"pirthaviraj@yahoo.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response is empty\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"\");\r\n    console.log(pm.response.text());\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/2",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response contains user data\", function () {\r\n    pm.expect(response.length).to.be.above(0);\r\n});\r\n\r\npm.test(\"User ID is 1\", function () {\r\n    pm.expect(String(response[0].id)).to.eql(\"1\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users?id=1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID exists\", function () {\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    pm.expect(response.amount).to.eql(\r\n        Number(pm.environment.get(\"paymentAmount\"))\r\n    );\r\n});\r\n\r\npm.test(\"Currency is correct\", function () {\r\n    pm.expect(response.currency).to.eql(\r\n        pm.environment.get(\"currency\")\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": {{paymentAmount}},\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Small Positive amount",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID exists\", function () {\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    pm.expect(response.amount).to.eql(\r\n        Number(pm.environment.get(\"paymentAmount\"))\r\n    );\r\n});\r\n\r\npm.test(\"Currency is correct\", function () {\r\n    pm.expect(response.currency).to.eql(\r\n        pm.environment.get(\"currency\")\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": 0.01,\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Payment - Zero Amount",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID exists\", function () {\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    pm.expect(response.amount).to.eql(\r\n        Number(pm.environment.get(\"paymentAmount\"))\r\n    );\r\n});\r\n\r\npm.test(\"Currency is correct\", function () {\r\n    pm.expect(response.currency).to.eql(\r\n        pm.environment.get(\"currency\")\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": 0,\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Chained Payment ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Payment ID is available\", function () {\r\n    pm.expect(pm.environment.get(\"paymentId\")).to.exist;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/posts/{{paymentID}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts",
+                "{{paymentID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Payment Environment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Payment amount variable exists\", function(){\r\n   pm.expect(pm.environment.get(\"paymentAmount\")).to.exist\r\n});\r\n\r\npm.test(\"Currency is EUR\", function () {\r\n    pm.expect(\r\n        pm.environment.get(\"currency\")\r\n    ).to.eql(\"EUR\");\r\n});\r\n\r\npm.test(\"Payment amount is numeric\", function () {\r\n    const amount = Number(\r\n        pm.environment.get(\"paymentAmount\")\r\n    );\r\n\r\n    pm.expect(amount).to.be.a(\"number\");\r\n    pm.expect(amount).to.be.above(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payment - Valid",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\nconst amount = Number(\r\n    pm.environment.get(\"paymentAmount\")\r\n);\r\n\r\nif(amount <=0){\r\n    throw new Error(\"Payment amount must be positive\");\r\n}\r\n\r\nconsole.log(\"Preparing payment request\");\r\nconsole.log(\"Amount\", amount);\r\nconsole.log(\"Currency:\", pm.environment.get(\"currency\"));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\nif(response.id !== undefined){\r\n    pm.environment.set(\r\n        \"paymentId\", String(response.id)\r\n    );\r\n}\r\n\r\npm.test(\"Payment ID was saved\", function () {\r\n    pm.expect(\r\n        pm.environment.get(\"paymentId\")\r\n    ).to.eql(String(response.id));\r\n});\r\n\r\nconsole.log(\"HTTP status\", pm.response.code);\r\nconsole.log(\"Response Time\", pm.response.responseTime);\r\nconsole.log(\"Configured amount\", pm.environment.get(\"paymentmount\"));\r\nconsole.log(\"Response body\", pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": {{paymentAmount}},\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative Tests",
+      "item": [
+        {
+          "name": "Invalid Payment Amount",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Missing Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID exists\", function () {\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    pm.expect(response.amount).to.eql(\r\n        Number(pm.environment.get(\"paymentAmount\"))\r\n    );\r\n});\r\n\r\npm.test(\"Currency is correct\", function () {\r\n    pm.expect(response.currency).to.eql(\r\n        pm.environment.get(\"currency\")\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Negative Amount Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"API returns a response\", function() {\r\n    pm.expect(pm.response).to.be.oneOf([200,201,400,422]);\r\n});\r\n\r\npm.test(\"Response time is acceptable\", function() {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"fromAccount\": \"{{fromAccount}}\",\r\n    \"toAccount\": \"{{toAccount}}\",\r\n    \"amount\": -500,\r\n    \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Negative decimal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();\r\n\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID exists\", function () {\r\n    pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    pm.expect(response.amount).to.eql(\r\n        Number(pm.environment.get(\"paymentAmount\"))\r\n    );\r\n});\r\n\r\npm.test(\"Currency is correct\", function () {\r\n    pm.expect(response.currency).to.eql(\r\n        pm.environment.get(\"currency\")\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": -0.1,\r\n  \"currency\": \"{{currency}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Protected Account",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Missing Authentication",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const token = \"fake-token-12345\";\r\npm.environment.set(\"authToken\", token);\r\n\r\npm.test(\"Login successful\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Auth token is stored\", function () {\r\n    pm.expect(pm.environment.get(\"authToken\")).to.exist;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"Password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/posts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User By Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\nconst response = pm.response.json();\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n\r\npm.test(\"User ID exist\", function () {\r\n  pm.expect(response.id).to.exist;\r\n});\r\n\r\npm.test(\"Correct user is returned\", function () {\r\n  pm.expect(String(response.id)).to.eql(\r\n      pm.environment.get(\"userId\")\r\n  );\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/users/{{userId}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

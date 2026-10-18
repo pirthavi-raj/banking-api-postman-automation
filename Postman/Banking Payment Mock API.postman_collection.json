@@ -1,0 +1,271 @@
+{
+  "info": {
+    "_postman_id": "40460cd2-29c4-4995-8887-d0d8862db2b4",
+    "name": "Banking Payment Mock API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49977316",
+    "_collection_link": "https://go.postman.co/collection/49977316-40460cd2-29c4-4995-8887-d0d8862db2b4?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Valid Payment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Status is 201 created\", function(){\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Payment ID is present\", function(){\r\n    pm.expect(response.paymentId).to.be.a(\"string\");\r\n    pm.expect(response.paymentId).to.not.be.empty;\r\n});\r\n\r\npm.test(\"Payment status is activated\", function(){\r\n   pm.expect(response.status).to.eql(\"Accepted\");\r\n});\r\n\r\npm.test(\"Currency is Euro\", function(){\r\n    pm.expect(response.currency).to.eql(\"EUR\");\r\n});\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"fromAccount\": \"ACC1001\",\r\n  \"toAccount\": \"ACC2001\",\r\n  \"amount\": 500,\r\n  \"currency\": \"EUR\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/payments",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "payments"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Valid Payment",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"paymentId\": \"PAY-1001\",\r\n  \"fromAccount\": \"ACC1001\",\r\n  \"toAccount\": \"ACC2001\",\r\n  \"amount\": 500,\r\n  \"currency\": \"EUR\",\r\n  \"status\": \"ACCEPTED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/payments",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "payments"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Sun, 18 Oct 2026 16:00:52 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "x-srv-trace",
+              "value": "v=1;t=4a87735eae202827"
+            },
+            {
+              "key": "x-srv-span",
+              "value": "v=1;s=9a7b802b68b8674a"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "120"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "118"
+            },
+            {
+              "key": "x-ratelimit-reset",
+              "value": "1792233485"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"10f-iQ/6cTHOHhQG6g/jbUGqClHk7Zg\""
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "set-cookie",
+              "value": "__cf_bm=_lyEH3W8GGSQAWI.XKyG.qLC.oHSCSdjjYRuQfu_K4I-1792339251.7297468-1.0.1.1-cyyNS28Vf0R5cF1S_d5TdNbR5LyKNN7cqyJ4AKYYmRFnGfHHxoFw_DqLOqruOXMNy71kQw8dQSHYQtGyCL18Pv6tarFdxFvx6xOdisO13pv0IfpPw6F7xHERUJ60ooDq; HttpOnly; SameSite=None; Secure; Path=/; Domain=pstmn.io; Expires=Sun, 18 Oct 2026 16:30:52 GMT"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a4c8c22348ecc80c-DUS"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"name\": \"mockRequestNotFoundError\",\n    \"message\": \"To mock this request add an example response for the mock server to return. Learn more here: https://learning.postman.com/docs/sending-requests/response-data/examples/#add-an-example\",\n    \"header\": \"You need an example\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Missing Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"fromAccount\": \"ACC1001\",\r\n  \"toAccount\": \"ACC2001\",\r\n  \"amount\": 500\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/payments",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "payments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Zero Amount",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\n\r\npm.test(\"Status is 422\", function () {\r\n    pm.response.to.have.status(422);\r\n});\r\n\r\npm.test(\"Error code identifies invalid amount\", function () {\r\n    pm.expect(response.errorCode).to.eql(\"INVALID_AMOUNT\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"fromAccount\": \"ACC1001\",\r\n  \"toAccount\": \"ACC2001\",\r\n  \"amount\": 0,\r\n  \"currency\": \"EUR\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/payments",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "payments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Payment Not found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"fromAccount\": \"{{fromAccount}}\",\r\n  \"toAccount\": \"{{toAccount}}\",\r\n  \"amount\": {{paymentAmount}},\r\n  \"currency\": \"{{currency}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/payments/PAY-9999",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "payments",
+            "PAY-9999"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
